@@ -36,7 +36,18 @@ namespace Linq
                 String genreName = book.SelectSingleNode("genre").InnerText;
                 if(genreName == genre)
                 {
-                    Console.WriteLine(book.InnerText);
+                    String author = book.SelectSingleNode("author").InnerText;
+                    String title = book.SelectSingleNode("title").InnerText;
+                    String price = book.SelectSingleNode("price").InnerText;
+                    String publish_date = book.SelectSingleNode("publish_date").InnerText;
+                    String description = book.SelectSingleNode("description").InnerText;
+
+                    Console.WriteLine("Author: " + author);
+                    Console.WriteLine("Title: " + title);
+                    Console.WriteLine("Price: " + price);
+                    Console.WriteLine("Publish date: " + publish_date);
+                    Console.WriteLine("Description: " + description);
+
                     Console.WriteLine("------------------");
                 }
                 //Console.WriteLine("Author: " + book.Attributes.GetNamedItem("title").Value);
