@@ -10,22 +10,64 @@ namespace Linq
     class XmlReader
     {
         private String xmlFileName;
-        private XmlTextReader reader;
+        private XmlDocument xmlDoc;
+
+       
 
         public XmlReader(String fileName)
         {
-            this.reader = new XmlTextReader(fileName);
+            this.xmlDoc = new XmlDocument();
+
+            this.xmlDoc.Load(fileName);
+
             this.xmlFileName = fileName;
         }
 
-        public void testReading()
+        public void getElementsByGenre(String genre)
         {
-            while(reader.Read())
-            {
-                Console.WriteLine(reader.Name);
+            XmlNodeList xmlNodeList = xmlDoc.GetElementsByTagName("book");
+            HashSet<String> listOfGenres = new HashSet<String>();
 
+            
+
+            foreach(XmlNode book in xmlNodeList)
+            {
+
+                String genreName = book.SelectSingleNode("genre").InnerText;
+                if(genreName == genre)
+                {
+                    Console.WriteLine(book.InnerText);
+                    Console.WriteLine("------------------");
+                }
+                //Console.WriteLine("Author: " + book.Attributes.GetNamedItem("title").Value);
+                /*
+                listOfGenres.Add(book["genre"].InnerText);
+                XmlNodeList childNode = book.ChildNodes;
+                foreach(XmlNode node in childNode)
+                {
+                    Console.WriteLine(node.InnerText + "\\");
+                }
+                */
+
+                
             }
-            Console.ReadLine();
+            /*
+            foreach (String str in listOfGenres)
+            {
+                if(str == genre)
+                {
+                   Console.WriteLine()
+                }
+                Console.WriteLine(str);
+            }
+            */
+
+
+        }
+
+        public void testNodes()
+        {
+
         }
     }
 }
