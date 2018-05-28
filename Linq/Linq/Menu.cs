@@ -12,8 +12,10 @@ namespace Linq
         private String input;
         public void printMenu()
         {
-            Console.WriteLine("[1] Find by author");
-            Console.WriteLine("[2] Find by bookId");
+            Console.WriteLine("[0] Exit");
+            Console.WriteLine("[1] Find by genre");
+            Console.WriteLine("[2] Get all book genres");
+            
         }
 
         public int getChoice()

@@ -24,6 +24,7 @@ namespace Linq
 
                 Menu menu = new Menu();
                 int choice = 0;
+                String input;
                 do
                 {
                     menu.printMenu();
@@ -34,12 +35,15 @@ namespace Linq
                     {
                         case 1:
                         {
-                                xml.getElementsByGenre("Fantasy");
+                                Console.WriteLine("Write genre of book");
+                                input = menu.getInput();
+                                xml.getBooksByGenre(input);
                                 break;
                         }
                         case 2:
                         {
-                            break;
+                                xml.getGenreList();
+                                break;
                         }
 
                         default: break;
@@ -60,6 +64,8 @@ namespace Linq
             {
                 Console.WriteLine(e);
             }
+
+            Console.WriteLine("Bye bye");
             Console.ReadLine();
             
         }

@@ -11,7 +11,7 @@ namespace Linq
     {
         private String xmlFileName;
         private XmlDocument xmlDoc;
-
+        private XmlNodeList xmlNodeList;
        
 
         public XmlReader(String fileName)
@@ -21,14 +21,28 @@ namespace Linq
             this.xmlDoc.Load(fileName);
 
             this.xmlFileName = fileName;
+
+            xmlNodeList = xmlDoc.GetElementsByTagName("book");
         }
 
-        public void getElementsByGenre(String genre)
+        public void getGenreList()
         {
-            XmlNodeList xmlNodeList = xmlDoc.GetElementsByTagName("book");
-            HashSet<String> listOfGenres = new HashSet<String>();
+            HashSet<String> genreList = new HashSet<string>();
+            foreach (XmlNode book in xmlNodeList)
+            {
+                genreList.Add(book["genre"].InnerText);
+            }
 
+            foreach(String genreName in genreList)
+            {
+                Console.WriteLine(genreName);
+            }
             
+        }
+        public void getBooksByGenre(String genre)
+        {
+           
+            Boolean flag = false;
 
             foreach(XmlNode book in xmlNodeList)
             {
@@ -49,29 +63,17 @@ namespace Linq
                     Console.WriteLine("Description: " + description);
 
                     Console.WriteLine("------------------");
+
+                    flag = true;
                 }
-                //Console.WriteLine("Author: " + book.Attributes.GetNamedItem("title").Value);
-                /*
-                listOfGenres.Add(book["genre"].InnerText);
-                XmlNodeList childNode = book.ChildNodes;
-                foreach(XmlNode node in childNode)
-                {
-                    Console.WriteLine(node.InnerText + "\\");
-                }
-                */
 
                 
             }
-            /*
-            foreach (String str in listOfGenres)
+           
+            if(!flag)
             {
-                if(str == genre)
-                {
-                   Console.WriteLine()
-                }
-                Console.WriteLine(str);
+                Console.WriteLine("There is no genre: " + genre);
             }
-            */
 
 
         }
