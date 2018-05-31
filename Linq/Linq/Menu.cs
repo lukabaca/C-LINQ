@@ -20,7 +20,13 @@ namespace Linq
 
         public int getChoice()
         {
-            choice = Convert.ToInt32(Console.ReadLine());
+            try
+            {
+                choice = Convert.ToInt32(Console.ReadLine());
+            }catch(Exception e)
+            {
+                choice = -1;
+            }
 
             return choice;
         }
