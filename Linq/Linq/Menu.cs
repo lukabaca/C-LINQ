@@ -15,7 +15,7 @@ namespace Linq
             Console.WriteLine("[0] Exit");
             Console.WriteLine("[1] Find by genre");
             Console.WriteLine("[2] Get all book genres");
-            
+            Console.WriteLine("[3] Find by genre and price (it will find >= price book)");
         }
 
         public int getChoice()

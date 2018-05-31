@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,9 @@ namespace Linq
 
                 Menu menu = new Menu();
                 int choice = 0;
-                String input;
+                
+                
+
                 do
                 {
                     menu.printMenu();
@@ -36,8 +39,8 @@ namespace Linq
                         case 1:
                         {
                                 Console.WriteLine("Write genre of book");
-                                input = menu.getInput();
-                                xml.getBooksByGenre(input);
+                                String genreName = menu.getInput();
+                                xml.getBooksByGenre(genreName);
                                 break;
                         }
                         case 2:
@@ -45,6 +48,27 @@ namespace Linq
                                 xml.getGenreList();
                                 break;
                         }
+                        case 3:
+                        {
+                                Console.WriteLine("Write genre of book");
+                                String genreName = menu.getInput();
+
+                                Console.WriteLine("Give price of book");
+                                
+                                try
+                                {
+                                    double price = Double.Parse(menu.getInput(), CultureInfo.InvariantCulture);
+                                    Console.WriteLine("------------------");
+                                    xml.getBooksBy_Genre_Price(genreName, price);
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine(e);
+                                    Console.WriteLine("Unable to convert string to double");
+                                }
+
+                                break;
+                           }
 
                         default: break;
 
