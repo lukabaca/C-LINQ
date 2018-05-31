@@ -46,7 +46,12 @@ namespace Linq
 
                                 Console.WriteLine("------------------");
                                 bookList = xml.getBooksByGenre(genreName);
+                                //printBookList(bookList);
+
+                                //bookList.Sort();
+                                bookList.Sort(Book.SortByAuthor);
                                 printBookList(bookList);
+
                                 break;
                         }
                         case 2:
@@ -65,7 +70,10 @@ namespace Linq
                                 {
                                     double price = Double.Parse(menu.getInput(), CultureInfo.InvariantCulture);
                                     Console.WriteLine("------------------");
-                                    xml.getBooksBy_Genre_Price(genreName, price);
+                                    bookList = xml.getBooksBy_Genre_Price(genreName, price);
+
+                                    bookList.Sort(Book.SortByPrice);
+                                    printBookList(bookList);
                                 }
                                 catch (Exception e)
                                 {

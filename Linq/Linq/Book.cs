@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Linq
 {
-    class Book
+    class Book : IComparable<Book>
     {
         private String author;
         private String title;
@@ -31,6 +31,22 @@ namespace Linq
         {
             return "Author: " + author + "\n" + "Title: " + title + "\n" + "Genre: " + genre + "\n" + "Price: " + price + "\n" + "Publish date: " + publish_date + "\n" + "Description: " + description + "\n" + "------------------" + "\n";
         }
+
+        //default sort by book Title
+        public int CompareTo(Book book)
+        {
+            return this.title.CompareTo(book.Title);
+        }
+
+        public static Comparison<Book> SortByAuthor = delegate (Book b1, Book b2)
+        {
+            return b1.Author.CompareTo(b2.Author);
+        };
+
+        public static Comparison<Book> SortByPrice = delegate (Book b1, Book b2)
+        {
+            return b1.Price.CompareTo(b2.Price);
+        };
 
         public string Author
         {

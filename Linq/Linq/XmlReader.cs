@@ -74,15 +74,6 @@ namespace Linq
 
                     Book book_ = new Book(author, title, genre, price, publish_date, description);
                     bookList.Add(book_);
-                    /*
-                    Console.WriteLine("Author: " + author);
-                    Console.WriteLine("Title: " + title);
-                    Console.WriteLine("Price: " + price);
-                    Console.WriteLine("Publish date: " + publish_date);
-                    Console.WriteLine("Description: " + description);
-
-                    Console.WriteLine("------------------");
-                    */
 
                     flag = true;
                 }
@@ -99,10 +90,12 @@ namespace Linq
 
         }
 
-        public void getBooksBy_Genre_Price(String genre, double price)
+        public List<Book> getBooksBy_Genre_Price(String genre, double price)
         {
             //select by price means in this case >= than price in arguments
             Boolean flag = false;
+
+            List<Book> bookList = new List<Book>();
 
             foreach (XmlNode book in xmlNodeList)
             {
@@ -120,14 +113,8 @@ namespace Linq
                         String publish_date = book.SelectSingleNode("publish_date").InnerText;
                         String description = book.SelectSingleNode("description").InnerText;
 
-                        Console.WriteLine("Author: " + author);
-                        Console.WriteLine("Title: " + title);
-                        Console.WriteLine("Price: " + priceBook);
-                        Console.WriteLine("Publish date: " + publish_date);
-                        Console.WriteLine("Description: " + description);
-
-                        Console.WriteLine("------------------");
-
+                        Book book_ = new Book(author, title, genre, bookPrice, publish_date, description);
+                        bookList.Add(book_);
 
                         flag = true;
                     }
@@ -146,6 +133,8 @@ namespace Linq
             {
                 Console.WriteLine("There are no books for your parametres in search");
             }
+
+            return bookList;
         }
     }
 }
