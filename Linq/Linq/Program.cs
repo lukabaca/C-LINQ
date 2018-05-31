@@ -11,22 +11,25 @@ namespace Linq
 {
     class Program
     {
+        public static void printBookList(List<Book> bookList)
+        {
+            foreach (Book book in bookList)
+            {
+                Console.WriteLine(book);
+            }
+        }
         static void Main(string[] args)
         {
             try
             {
                 String fileName = "example.xml";
-                /*
-                XmlReader xmlReader = new XmlReader("example.xml");
-                xmlReader.testReading();
-                */
-
+               
                 XmlReader xml = new XmlReader(fileName);
 
                 Menu menu = new Menu();
                 int choice = 0;
-                
-                
+
+                List<Book> bookList = new List<Book>();
 
                 do
                 {
@@ -40,7 +43,10 @@ namespace Linq
                         {
                                 Console.WriteLine("Write genre of book");
                                 String genreName = menu.getInput();
-                                xml.getBooksByGenre(genreName);
+
+                                Console.WriteLine("------------------");
+                                bookList = xml.getBooksByGenre(genreName);
+                                printBookList(bookList);
                                 break;
                         }
                         case 2:

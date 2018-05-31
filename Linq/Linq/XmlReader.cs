@@ -26,6 +26,8 @@ namespace Linq
             xmlNodeList = xmlDoc.GetElementsByTagName("book");
         }
 
+
+
         public void getGenreList()
         {
             HashSet<String> genreList = new HashSet<string>();
@@ -40,10 +42,12 @@ namespace Linq
             }
 
         }
-        public void getBooksByGenre(String genre)
+        public List<Book> getBooksByGenre(String genre)
         {
 
             Boolean flag = false;
+
+            List<Book> bookList = new List<Book>();
 
             foreach (XmlNode book in xmlNodeList)
             {
@@ -51,12 +55,26 @@ namespace Linq
                 String genreName = book.SelectSingleNode("genre").InnerText;
                 if (genreName == genre)
                 {
+                    double price;
+
                     String author = book.SelectSingleNode("author").InnerText;
                     String title = book.SelectSingleNode("title").InnerText;
-                    String price = book.SelectSingleNode("price").InnerText;
+
+                    try
+                    {
+                        price = Double.Parse(book.SelectSingleNode("price").InnerText, CultureInfo.InvariantCulture);
+                    }catch(Exception e)
+                    {
+                        Console.WriteLine("Couldn't parse book price to double");
+                        price = -1;
+                    }
+
                     String publish_date = book.SelectSingleNode("publish_date").InnerText;
                     String description = book.SelectSingleNode("description").InnerText;
 
+                    Book book_ = new Book(author, title, genre, price, publish_date, description);
+                    bookList.Add(book_);
+                    /*
                     Console.WriteLine("Author: " + author);
                     Console.WriteLine("Title: " + title);
                     Console.WriteLine("Price: " + price);
@@ -64,6 +82,7 @@ namespace Linq
                     Console.WriteLine("Description: " + description);
 
                     Console.WriteLine("------------------");
+                    */
 
                     flag = true;
                 }
@@ -76,6 +95,7 @@ namespace Linq
                 Console.WriteLine("There is no genre: " + genre);
             }
 
+            return bookList;
 
         }
 
