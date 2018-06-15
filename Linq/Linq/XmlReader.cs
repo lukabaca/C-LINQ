@@ -1,140 +1,89 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
+using System.Xml.Linq;
 
 namespace Linq
 {
-    class XmlReader
+    class XMLreader
     {
-        private String xmlFileName;
-        private XmlDocument xmlDoc;
-        private XmlNodeList xmlNodeList;
+        private String path;
+        private XElement xElement;
+        private IEnumerable<XElement> resultBooks;
 
-
-        public XmlReader(String fileName)
+        public XMLreader()
         {
-            this.xmlDoc = new XmlDocument();
 
-            this.xmlDoc.Load(fileName);
+            this.path = "../../example.xml";
 
-            this.xmlFileName = fileName;
+            this.xElement = XElement.Load(path);
 
-            xmlNodeList = xmlDoc.GetElementsByTagName("book");
+            this.resultBooks = xElement.Elements();
         }
 
 
 
-        public void getGenreList()
+
+
+        public IEnumerable<XElement> searchByString(String category, String value)
         {
-            HashSet<String> genreList = new HashSet<string>();
-            foreach (XmlNode book in xmlNodeList)
+            var searchList = from idp in xElement.Elements("book")
+                             where (string)idp.Element(category) == value
+                             select idp;
+            //searchList = searchList.OrderBy(item => item.Element().Value)
+
+            if (searchList.Count() == 0)
             {
-                genreList.Add(book["genre"].InnerText);
+                return null;
             }
 
-            foreach (String genreName in genreList)
-            {
-                Console.WriteLine(genreName);
-            }
-
-        }
-        public List<Book> getBooksByGenre(String genre)
-        {
-
-            Boolean flag = false;
-
-            List<Book> bookList = new List<Book>();
-
-            foreach (XmlNode book in xmlNodeList)
-            {
-
-                String genreName = book.SelectSingleNode("genre").InnerText;
-                if (genreName == genre)
-                {
-                    double price;
-
-                    String author = book.SelectSingleNode("author").InnerText;
-                    String title = book.SelectSingleNode("title").InnerText;
-
-                    try
-                    {
-                        price = Double.Parse(book.SelectSingleNode("price").InnerText, CultureInfo.InvariantCulture);
-                    }catch(Exception e)
-                    {
-                        Console.WriteLine("Couldn't parse book price to double");
-                        price = -1;
-                    }
-
-                    String publish_date = book.SelectSingleNode("publish_date").InnerText;
-                    String description = book.SelectSingleNode("description").InnerText;
-
-                    Book book_ = new Book(author, title, genre, price, publish_date, description);
-                    bookList.Add(book_);
-
-                    flag = true;
-                }
-
-
-            }
-
-            if (!flag)
-            {
-                Console.WriteLine("There is no genre: " + genre);
-            }
-
-            return bookList;
-
+            return searchList;
         }
 
-        public List<Book> getBooksBy_Genre_Price(String genre, double price)
+
+        public IEnumerable<XElement> searchByDouble(String category, double value)
         {
-            //select by price means in this case >= than price in arguments
-            Boolean flag = false;
+            var searchList = from idp in xElement.Elements("book")
+                             where (double)idp.Element(category) == value
+                             select idp;
 
-            List<Book> bookList = new List<Book>();
-
-            foreach (XmlNode book in xmlNodeList)
+            if (searchList.Count() == 0)
             {
-                String genreName = book.SelectSingleNode("genre").InnerText;
-
-                try
-                {
-                    double bookPrice = Double.Parse(book.SelectSingleNode("price").InnerText, CultureInfo.InvariantCulture);
-
-                    if (genreName == genre && bookPrice >= price)
-                    {
-                        String author = book.SelectSingleNode("author").InnerText;
-                        String title = book.SelectSingleNode("title").InnerText;
-                        String priceBook = book.SelectSingleNode("price").InnerText;
-                        String publish_date = book.SelectSingleNode("publish_date").InnerText;
-                        String description = book.SelectSingleNode("description").InnerText;
-
-                        Book book_ = new Book(author, title, genre, bookPrice, publish_date, description);
-                        bookList.Add(book_);
-
-                        flag = true;
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    Console.WriteLine("Unable to convert string to double");
-                }
-
-                
-
+                return null;
             }
 
-            if (!flag)
-            {
-                Console.WriteLine("There are no books for your parametres in search");
-            }
-
-            return bookList;
+            return searchList;
         }
+
+        public IEnumerable<XElement> searchByDoubleLess(String category, double value)
+        {
+            var searchList = from idp in xElement.Elements("book")
+                             where (double)idp.Element(category) <= value
+                             select idp;
+            if (searchList.Count() == 0)
+            {
+                return null;
+            }
+
+
+            return searchList;
+        }
+
+        public IEnumerable<XElement> searchByDoubleMore(String category, double value)
+        {
+            var searchList = from idp in xElement.Elements("book")
+                             where (double)idp.Element(category) >= value
+                             select idp;
+            if (searchList.Count() == 0)
+            {
+                return null;
+            }
+
+
+            return searchList;
+        }
+
     }
 }
